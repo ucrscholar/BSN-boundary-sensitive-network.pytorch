@@ -42,9 +42,11 @@ def train_TEM(data_loader,model,optimizer,epoch,writer,opt):
     writer.add_scalars('data/end', {'train': epoch_end_loss/(n_iter+1)}, epoch)
     writer.add_scalars('data/cost', {'train': epoch_cost/(n_iter+1)}, epoch)
 
-    print "TEM training loss(epoch %d): action - %.03f, start - %.03f, end - %.03f" %(epoch,epoch_action_loss/(n_iter+1),
-                                                                                        epoch_start_loss/(n_iter+1),
-                                                                                        epoch_end_loss/(n_iter+1))
+    print("TEM training loss(epoch %d): action - %.03f, start - %.03f, end - %.03f" % (
+    epoch, epoch_action_loss / (n_iter + 1),
+    epoch_start_loss / (n_iter + 1),
+    epoch_end_loss / (n_iter + 1)))
+
 
 def test_TEM(data_loader,model,epoch,writer,opt):
     model.eval()
@@ -65,10 +67,11 @@ def test_TEM(data_loader,model,epoch,writer,opt):
     writer.add_scalars('data/start', {'test': epoch_start_loss/(n_iter+1)}, epoch)
     writer.add_scalars('data/end', {'test': epoch_end_loss/(n_iter+1)}, epoch)
     writer.add_scalars('data/cost', {'test': epoch_cost/(n_iter+1)}, epoch)
-    
-    print "TEM testing  loss(epoch %d): action - %.03f, start - %.03f, end - %.03f" %(epoch,epoch_action_loss/(n_iter+1),
-                                                                                        epoch_start_loss/(n_iter+1),
-                                                                                        epoch_end_loss/(n_iter+1))
+
+    print("TEM testing  loss(epoch %d): action - %.03f, start - %.03f, end - %.03f" % (
+    epoch, epoch_action_loss / (n_iter + 1),
+    epoch_start_loss / (n_iter + 1),
+    epoch_end_loss / (n_iter + 1)))
     state = {'epoch': epoch + 1,
                 'state_dict': model.state_dict()}
     torch.save(state, opt["checkpoint_path"]+"/tem_checkpoint.pth.tar" )
@@ -89,8 +92,9 @@ def train_PEM(data_loader,model,optimizer,epoch,writer,opt):
         epoch_iou_loss += iou_loss.cpu().detach().numpy()
 
     writer.add_scalars('data/iou_loss', {'train': epoch_iou_loss/(n_iter+1)}, epoch)
-    
-    print "PEM training loss(epoch %d): iou - %.04f" %(epoch,epoch_iou_loss/(n_iter+1))
+
+    print("PEM training loss(epoch %d): iou - %.04f" % (epoch, epoch_iou_loss / (n_iter + 1)))
+
 
 def test_PEM(data_loader,model,epoch,writer,opt):
     model.eval()
@@ -102,9 +106,9 @@ def test_PEM(data_loader,model,epoch,writer,opt):
         epoch_iou_loss += iou_loss.cpu().detach().numpy()
 
     writer.add_scalars('data/iou_loss', {'validation': epoch_iou_loss/(n_iter+1)}, epoch)
-    
-    print "PEM testing  loss(epoch %d): iou - %.04f" %(epoch,epoch_iou_loss/(n_iter+1))
-    
+
+    print("PEM testing  loss(epoch %d): iou - %.04f" % (epoch, epoch_iou_loss / (n_iter + 1)))
+
     state = {'epoch': epoch + 1,
                 'state_dict': model.state_dict()}
     torch.save(state, opt["checkpoint_path"]+"/pem_checkpoint.pth.tar" )
@@ -236,54 +240,55 @@ def BSN_inference_PEM(opt):
 def main(opt):
     if opt["module"] == "TEM":
         if opt["mode"] == "train":
-            print "TEM training start"  
+            print("TEM training start")
             BSN_Train_TEM(opt)
-            print "TEM training finished"  
+            print("TEM training finished")
         elif opt["mode"] == "inference":
-            print "TEM inference start"  
+            print("TEM inference start")
             if not os.path.exists("output/TEM_results"):
                 os.makedirs("output/TEM_results") 
             BSN_inference_TEM(opt)
-            print "TEM inference finished"
+            print("TEM inference finished")
         else:
-            print "Wrong mode. TEM has two modes: train and inference"
-          
+            print("Wrong mode. TEM has two modes: train and inference")
+
     elif opt["module"] == "PGM":
         if not os.path.exists("output/PGM_proposals"):
-            os.makedirs("output/PGM_proposals") 
-        print "PGM: start generate proposals"
+            os.makedirs("output/PGM_proposals")
+        print("PGM: start generate proposals")
         PGM_proposal_generation(opt)
-        print "PGM: finish generate proposals"
-        
+        print("PGM: finish generate proposals")
+
         if not os.path.exists("output/PGM_feature"):
-            os.makedirs("output/PGM_feature") 
-        print "PGM: start generate BSP feature"
+            os.makedirs("output/PGM_feature")
+        print("PGM: start generate BSP feature")
         PGM_feature_generation(opt)
-        print "PGM: finish generate BSP feature"
-    
+        print("PGM: finish generate BSP feature")
+
     elif opt["module"] == "PEM":
         if opt["mode"] == "train":
-            print "PEM training start"  
+            print("PEM training start")
             BSN_Train_PEM(opt)
-            print "PEM training finished"  
+            print("PEM training finished")
         elif opt["mode"] == "inference":
             if not os.path.exists("output/PEM_results"):
-                os.makedirs("output/PEM_results") 
-            print "PEM inference start"  
+                os.makedirs("output/PEM_results")
+            print("PEM inference start")
             BSN_inference_PEM(opt)
-            print "PEM inference finished"
+            print("PEM inference finished")
         else:
-            print "Wrong mode. PEM has two modes: train and inference"
-    
+            print("Wrong mode. PEM has two modes: train and inference")
+
     elif opt["module"] == "Post_processing":
-        print "Post processing start"
+        print("Post processing start")
         BSN_post_processing(opt)
-        print "Post processing finished"
-        
+        print("Post processing finished")
+
     elif opt["module"] == "Evaluation":
         evaluation_proposal(opt)
-    print ""
-        
+    print("")
+
+
 if __name__ == '__main__':
     opt = opts.parse_opt()
     opt = vars(opt)
