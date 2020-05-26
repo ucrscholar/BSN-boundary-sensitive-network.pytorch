@@ -21,11 +21,11 @@ def parse_opt():
     parser.add_argument(
         '--video_info',
         type=str,
-        default="./data/activitynet_annotations/video_info_new.csv")
+        default="D:/BMN/data/activitynet_annotations/video_info_new.csv")
     parser.add_argument(
         '--video_anno',
         type=str,
-        default="./data/activitynet_annotations/anet_anno_action.json")
+        default="D:/BMN/data/activitynet_annotations/anet_anno_action.json")
     
     # TEM Dataset settings
     parser.add_argument(
@@ -39,7 +39,7 @@ def parse_opt():
     parser.add_argument(
         '--feature_path',
         type=str,
-        default="./data/activitynet_feature_cuhk/")
+        default="D:/BMN/data/activitynet_feature_cuhk/")
     
     # PEM Dataset settings
     parser.add_argument(
@@ -158,7 +158,7 @@ def parse_opt():
     parser.add_argument(
         '--pgm_thread',
         type=int,
-        default=8)	
+        default=1)
     parser.add_argument(
         '--num_sample_start',
         type=int,
@@ -188,7 +188,7 @@ def parse_opt():
     parser.add_argument(
         '--post_process_thread',
         type=int,
-        default=8)
+        default=1)
     parser.add_argument(
         '--soft_nms_alpha',
         type=float,

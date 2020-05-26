@@ -184,7 +184,7 @@ def BSN_inference_TEM(opt):
     
     test_loader = torch.utils.data.DataLoader(VideoDataSet(opt,subset="full"),
                                                 batch_size=model.module.batch_size, shuffle=False,
-                                                num_workers=8, pin_memory=True,drop_last=False)
+                                                num_workers=0, pin_memory=True,drop_last=False)
     
     columns=["action","start","end","xmin","xmax"]
     for index_list,input_data,anchor_xmin,anchor_xmax in test_loader:
@@ -199,7 +199,7 @@ def BSN_inference_TEM(opt):
         anchor_xmax = np.array([x.numpy()[0] for x in anchor_xmax])
         
         for batch_idx,full_idx in enumerate(index_list):            
-            video = test_loader.dataset.video_list[full_idx]
+            video = list(test_loader.dataset.video_list)[full_idx]
             video_action = batch_action[batch_idx]
             video_start = batch_start[batch_idx]
             video_end = batch_end[batch_idx]    

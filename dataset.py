@@ -38,7 +38,7 @@ class VideoDataSet(data.Dataset):
             if self.subset in video_subset:
                 self.video_dict[video_name] = video_info
         self.video_list = self.video_dict.keys()
-        print "%s subset video numbers: %d" %(self.subset,len(self.video_list))
+        print("%s subset video numbers: %d" % (self.subset, len(self.video_list)))
 
     def __getitem__(self, index):
         video_data,anchor_xmin,anchor_xmax = self._get_base_data(index)
@@ -49,7 +49,7 @@ class VideoDataSet(data.Dataset):
             return index,video_data,anchor_xmin,anchor_xmax
         
     def _get_base_data(self,index):
-        video_name=self.video_list[index]
+        video_name=list(self.video_list)[index]
         anchor_xmin=[self.temporal_gap*i for i in range(self.temporal_scale)]
         anchor_xmax=[self.temporal_gap*i for i in range(1,self.temporal_scale+1)]
         video_df=pd.read_csv(self.feature_path+ "csv_mean_"+str(self.temporal_scale)+"/"+video_name+".csv")
@@ -137,7 +137,7 @@ class ProposalDataSet(data.Dataset):
             if self.subset in video_subset:
                 self.video_dict[video_name] = video_info
         self.video_list = self.video_dict.keys()
-        print "%s subset video numbers: %d" %(self.subset,len(self.video_list))
+        print("%s subset video numbers: %d" % (self.subset, len(self.video_list)))
 
     def __len__(self):
         return len(self.video_list)
