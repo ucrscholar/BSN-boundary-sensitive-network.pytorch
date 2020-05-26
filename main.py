@@ -83,6 +83,7 @@ def train_PEM(data_loader,model,optimizer,epoch,writer,opt):
     model.train()
     epoch_iou_loss = 0
     
+    
     for n_iter,(input_data,label_iou) in enumerate(data_loader):
         PEM_output = model(input_data)
         iou_loss = PEM_loss_function(PEM_output,label_iou,model,opt)
